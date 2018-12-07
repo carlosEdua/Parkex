@@ -1,2 +1,2 @@
 # Parkex
-virtual parking lot for you eCar
+virtual parking lot, for your eCar
