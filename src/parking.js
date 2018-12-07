@@ -242,7 +242,7 @@ function enterV(position){
         switchCssClass(gID('formInContainer'),'activeForm',false);
         //IMPORTANT: the removeEventListener is because the modal window is called
         //several times and  JavaScript remenber all the variables in the scope
-        //when the eventListener is executed, so is very important to remove the
+        //where the eventListener is executed, so is very important to remove the
         //event listener for each time that the user close the modal window 
         gID('buttonFormIn').removeEventListener('click',addVehicle);       
         }
