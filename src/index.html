@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Parkex | parking your eCar</title>
+    <link rel="stylesheet" href="./parking.css">
+</head>
+<body>
+    <h2>welcome to parkex</h2>
+
+    <section class="inOrOutContainer">
+        <div class="principalButtons">
+            <!-- onclick for principal functions -->
+            <button onclick="enterV()">enter a vehicle</button>
+            <button onclick="outV()">put out a vehicle</button>
+        </div>
+        <p id="ocultMessage">select the place</p>
+    </section>
+    
+    <!-- parking lot places container -->
+    <section id="superPlacesContainer">
+        <div class="placesContainer" id="placesContainer">
+            
+        </div>
+    </section>
+
+    <!-- form to put in a vehicle -->
+    <section class="formInContainer" id="formInContainer">
+
+        
+        <div id="formIn" class="formIn">
+            <div class="exit" id="exit">exit X</div>
+
+            <h1>complete the form to enter your vehicle</h1>
+            
+            <label for="username">your name</label>
+            <input type="text" name="username" id="username">
+    
+            <label for="brand">your vehicle brand</label>
+            <input type="text" name="brand" id="brand">
+    
+            <label for="carModel">model of the vehicle</label>
+            <input type="text" name="carModel" id="carModel">
+    
+            <label for="serial">numberplate of the vehicle</label>
+            <input type="text" name="serial" id="serial">
+
+            <button id="buttonFormIn">
+                put my vehicle
+            </button>
+        </div>
+    </section>
+
+
+
+    <!-- form to put out a vehicle -->
+    <section class="formOutContainer" id="formOutContainer">
+
+        
+        <div id="formOut" class="formOut">
+            <div class="exit" id="exit2">exit X</div>
+
+            <h1>complete the form to put out your vehicle</h1>
+            
+            <label for="place">what is the number of the place?</label>
+            <input type="text" name="place" id="numberPlace" placeholder="place number">
+            
+            <p class="rememberName">you not remember the number?</p>
+            <div class="rememberDiv">
+                <input type="text"  id="rememberName" placeholder="your name">
+            </div>
+
+
+
+            <button id="buttonFormOut">
+                put out my vehicle
+            </button>
+        </div>
+    </section>
+
+    
+
+    <script src="./parking.js"></script>
+</body>
+</html>

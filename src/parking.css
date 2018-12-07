@@ -1,0 +1,102 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: lightseagreen;
+    position: relative;
+    min-height: 100vh;
+}
+#superPlacesContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.placesContainer{
+    width: 92%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    border: 1px solid red;
+    grid-gap: 4px;
+}
+
+.place{
+    border: 1px solid blue;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 0px;
+    position: relative;
+}
+
+.void{
+    background: rgb(71, 212, 71);
+}
+
+.ocuped{
+    background: rgb(253, 70, 70);
+}
+
+
+
+/* form */
+.formInContainer,.formOutContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -200%;
+    transition: .4s;
+}
+
+.formIn,.formOut{
+    text-align: center;
+    width: 70%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(150, 250, 208);
+    z-index: 100;
+    padding: 25px 0px;
+    position: relative;
+}
+
+
+.activeForm{
+    top: 10%;
+}
+
+.exit{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+/* popup */
+.popup{
+    position: absolute;
+    background: white;
+    border-radius: 7px;
+    z-index: 10;
+    top: 120%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 5px;
+    align-items: center;
+    width: 100%;
+}
+.popupArrow{
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10%;
+    border-right: 10px solid transparent;
+    border-top: 0px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid white;
+}
