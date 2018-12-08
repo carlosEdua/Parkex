@@ -6,17 +6,17 @@
  * this is a program to emulated a parking lot of the real world
  * you can add or remove vehicles to the Parking lot , also the program
  * calculates the amount that you pay by stand time
- * 
+ *
  * basically we have 2 classes: Vehicle and ParkLot for create
  *  a new vehicle and a new parking lot
- * 
+ *
  * the classes do the work to add or remove vehicles and calculate the pricing
  * all the rest is just DOM implementations.
- * 
- * NOTE: this code is your and me, so you can modify like you want.   
+ *
+ * NOTE: this code is your and me, so you can modify like you want
  */
 
-//global functions to get elements from the DOM
+//  global functions to get elements from the DOM
 const gID = el => document.getElementById(el);
 const qS = el => document.querySelector(el);
 const qSA = el => document.querySelectorAll(el);
@@ -67,67 +67,21 @@ class ParkLot{
     }
 
     //put out a vehicle
-    vehicleOut(position,name = null){
-        let isMyVehicle; // to _confirm if is the user vehicle or not
+    vehicleOut(position){
         //if the place is void
         if(this.places[position] == 0) return 'this vehicle already check out';
-        //if the user not remenber his position number of the parking lot and use his name
-        else if(typeof name == 'string') {
-            //all the vehicles that the ownerName is the same
-            let equalsOwnerNames = this._search('ownerName',name)
-            // isMyVehicle =  
-            this._confirm(equalsOwnerNames);
+        
+        else{// the user remenber his number position
+            let vehicleObj = this.places[position];
+            vehicleObj['end'] = [new Date().getHours(), new Date().getMinutes()]
             changeVisualPlace(position,this,false)//change the color of the place
-                                        //the element returned from _confirm 
-            // return isMyVehicle ? this._chekoutPay(equalsOwnerNames[isMyVehicle]): false; 
-        }
-        else{//the user remenber his number position
-            // isMyVehicle = 
-            this._confirm(this.places[position])
-            // console.log('is my vehicle ,',isMyVehicle);
-            changeVisualPlace(position,this,false)//change the color of the place
-            // return isMyVehicle ? this._chekoutPay(this.places[position]): false; 
+            this._calculatePrice(vehicleObj.start,vehicleObj.end)
+            // exit the vehicle for the array "places" because 0 represent void
+            vehicleObj = 0;
         }
         
     }
 
-    //_search a specific vehicle parked in a place
-    _search(prop,vehicleValue){
-        let arrValues = []
-        for(let vehicle of this.places){
-            if(vehicle[prop] == vehicleValue ) arrValues.push(vehicle)
-        }
-        return arrValues;
-    }
-
-    //_confirm if the vehicle is the user vehicle
-    _confirm(vehicles){
-        if (vehicles instanceof Vehicle) this.visualConfirmationToExit(vehicles)
-        else{//print one by one the vehicles with the same ownerName
-            for(let v of vehicles){
-                this.visualConfirmationToExit(v);
-            }
-        }
-        
-    }
-
-    //_checkoutPay put out of the places a vehicle and the user pay for the stand time
-    _chekoutPay(objectVehicleIndex){
-        //vExit = vehicle to exit
-        let vExit = this.places[objectVehicleIndex];
-        //NOTE: vExit is a copy of objectVehicle, so it's the same that objA = objB
-        vExit['end'] = [new Date().getHours(), new Date().getMinutes()]
-
-        //calculate the price to pay
-        let amount = this._calculatePrice(vExit['start'] , vExit['end'])
-
-        // i for find the index of the vehicle to checkout
-        let i = this.places.indexOf(vExit)
-        this.places[i] = 0;// checkout of the vehicle, because 0 represent a void place
-        console.log(this.places);
-        console.log(amount)
-        
-    }
 
     // price to pay by the service
     _calculatePrice(start,end){//start[hour,minutes] end[hour,minutes]
@@ -136,62 +90,51 @@ class ParkLot{
         transcurred = final - begin, //total time transcurred in minutes
         hour = 0;
 
-        // ====== short solution ======
         if(transcurred < 0) transcurred += 24 * 60;
-        //===========   ***   ===========
         
-        //NOTE: short solution and large solution 
-        //it is in case you go from one day to another
-
-        // large solution =================
-        // if(final < begin){
-        //     let day1 = start[0]*60 + start[1];
-        //     day1 = (23*60)+59 - (day1) + 1;
-        //     let day2 =  end[0]*60 + end[1];
-
-        //     transcurred = day1 + day2;
-        // }
-        // ================================
-
         for(transcurred; transcurred >= 60 ; transcurred -= 60){
             hour++;
         }
-        //NOTE: transcurred are here the minutes 
-        let hourStr = hour.toString() + ':' + transcurred.toString()
-        let toPay = hour * this.hourPrice;
-        if(transcurred == 0) return [toPay , hourStr]//if the hour is exact
+        //NOTE: <transcurred> are here the minutes 
+        let hourStr = hour.toString() + ':' + transcurred.toString(),
+        toPay = hour * this.hourPrice,
+        finalPay;
+        if(transcurred == 0) finalPay =  [toPay , hourStr]//if the hour is exact
         //else plus the complete hourPrice or plus hourPrice/2 depend the minutes passed  
-        let finalPay = transcurred >= 30 ? [toPay += this.hourPrice,hourStr]:[toPay += (this.hourPrice / 2) ,hourStr];  
-        visualExitAndPay(finalPay)
+        else {
+            finalPay = transcurred >= 30 ? [toPay += this.hourPrice,hourStr]:[toPay += (this.hourPrice / 2) ,hourStr];
+        }  
+
+        visualExitAndPay(finalPay,start,end,this.hourPrice)
     }
-
-
-
-//print on the DOM the vehicle(s) to put out for the user confirmation
-    visualConfirmationToExit(vehicle){
-    let obj = vehicle;
-    gID('selectYourVehicle').innerHTML =  //html
-    `                  
-    <div id="select_V_Id" >
-         <p>wich is your vehicle? :</p>
-         <div class="selectVehicle">
-              <p><b>owner:</b> ${obj.ownerName}</p>
-              <p><b>brand:</b> ${obj.brandCar}</p>
-              <p><b>model:</b> ${obj.model}</p>
-              <p><b>numberplate:</b> ${obj.numberPlate}</p>
-         </div>
-     </div>
-     `;
-    }
-
 
 }
 
+function visualExitAndPay(finalPay,start,end,hourPrice){
+    gID('visualPay').innerHTML = //html
+    `
+    <div class="paySubContainer">
+    <div id="exit3" class="exit">exit X</div>
 
-//print on the DOM the pricing and the time transcurred
-function visualExitAndPay(payData){
-    return console.log(`the time that yo stand ${payData[1]}
-    you pay ${payData[0]}`)
+        <div>
+            you pay $${finalPay[0]}
+        </div>
+        <div>
+            <p><b>the time that you stand:</b> ${finalPay[1]}</p>
+            <p><b>start time:</b> ${start.join(':')}</p>
+            <p><b>end time:</b> ${end.join(':')}</p>
+            <p><b>price per hour:</b> ${hourPrice}</p>
+        </div>
+    </div>
+    `;
+    switchCssClass(gID('visualPay'),'activeForm')
+
+    const exit = () => {
+        switchCssClass(gID('visualPay'),'activeForm',false);
+        gID('exit3').removeEventListener('click',exit)
+    }
+    gID('exit3').addEventListener('click',exit)
+    
 }
 
 //          ===========     ATTENTION       ===========
@@ -308,6 +251,8 @@ function putOutV(position)
     );
 
     const exitVehicle = () => {
+        switchCssClass(gID('formOutContainer'),'activeForm',false);
+        gID('buttonFormOut').removeEventListener('click',exitVehicle);
         Park.vehicleOut(position)
     }
 

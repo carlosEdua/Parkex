@@ -8,17 +8,10 @@
     <link rel="stylesheet" href="./parking.css">
 </head>
 <body>
-    <h2>welcome to parkex</h2>
+    <h1>welcome to parkex</h1>
+    <div id="hourPrice"></div>
 
-    <section class="inOrOutContainer">
-        <div class="principalButtons">
-            <!-- onclick for principal functions -->
-            <button onclick="enterV()">enter a vehicle</button>
-            <button onclick="outV()">put out a vehicle</button>
-        </div>
-        <p id="ocultMessage">select the place</p>
-    </section>
-    
+    <h2>select the place</h2>
     <!-- parking lot places container -->
     <section id="superPlacesContainer">
         <div class="placesContainer" id="placesContainer">
@@ -72,16 +65,16 @@
                 <input type="text"  id="rememberName" placeholder="your name">
             </div>
 
-
-
             <button id="buttonFormOut">
                 put out my vehicle
             </button>
         </div>
     </section>
 
+    <!-- show the amount -->
+    <div id="visualPay" class="visualPay"></div>
     
 
-    <script src="./parking.js"></script>
+    <script src="./parking2.js"></script>
 </body>
 </html>
